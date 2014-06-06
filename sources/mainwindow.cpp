@@ -17,8 +17,8 @@ MainWindow::MainWindow()
  
 	// creates a model to puts elements in the list
 	QStandardItemModel* listModel = new QStandardItemModel;
-	listModel->setItem(0,0,new QStandardItem("Artifacs"));
-	listModel->setItem(1,0,new QStandardItem("Navigation"));	
+	listModel->setItem(0,0,new QStandardItem("Artefactos"));
+	listModel->setItem(1,0,new QStandardItem("Navegacion"));	
 	//creates the dock bar
 	QDockWidget* dockBar = new QDockWidget;
 	dockBar->setObjectName("options");
@@ -39,7 +39,7 @@ MainWindow::MainWindow()
 
 void MainWindow::changeCentralWidget(const QModelIndex& index)
 {
-	if(options->model()->index(index.row(),0).data().toString() == "Navigation")
+	if(options->model()->index(index.row(),0).data().toString() == "Navegacion")
 		this->setCentralWidget(new Navigation(this));
 	else
 		this->setCentralWidget(new Artifacts(this));

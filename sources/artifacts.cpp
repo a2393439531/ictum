@@ -38,8 +38,8 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 	
 	/* sets up the business architecture part of the UI*/
 	//business architecture groupboxes
-	QGroupBox* businessArchitectureWrapperGroupBox = new QGroupBox("Bussines Architecture");
-	QGroupBox* businessArchitectureCatalogsGroupBox = new QGroupBox("Catalog");
+	QGroupBox* businessArchitectureWrapperGroupBox = new QGroupBox("Arquitectura de Negocio");
+	QGroupBox* businessArchitectureCatalogsGroupBox = new QGroupBox("Catalogos");
 	QGroupBox* businessArchitectureMatrixGroupBox = new QGroupBox("Matrices");
 	
 	//businessLayouts
@@ -56,7 +56,7 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 	actors->setFlat(true);
 	QPushButton* roles = new QPushButton("Roles");
 	roles->setFlat(true);
-	QPushButton* ous = new QPushButton("Organizational Units");
+	QPushButton* ous = new QPushButton("Unidades Organizacionales");
 	ous->setFlat(true);
 	QPushButton* functions = new QPushButton("Funciones");
 	functions->setFlat(true);
@@ -101,8 +101,8 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 	
 	/* sets up the information architecture part of the UI */
 	//data Architecture Groupboxes
-	QGroupBox* informationArchitectureWrapperGroupBox = new QGroupBox("Information Architecture");
-	QGroupBox* informationArchitectureCatalogsGroupBox = new QGroupBox("Catalog");
+	QGroupBox* informationArchitectureWrapperGroupBox = new QGroupBox("Arquitectura de la Inforamcion");
+	QGroupBox* informationArchitectureCatalogsGroupBox = new QGroupBox("Catalogos");
 	QGroupBox* informationArchitectureMatrixGroupBox = new QGroupBox("Matrices");
 
 	//data Layouts		
@@ -117,11 +117,11 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 	//Information architecture catalog buttons
 	QPushButton* dataEntities = new QPushButton("Entidad de datos");
 	dataEntities->setFlat(true);
-	QPushButton* iss = new QPushButton("Sistema de Servicions de Informacion");
+	QPushButton* iss = new QPushButton("Sistema de Servicios de Informacion");
 	iss->setFlat(true);
 	
 	//Information architecture matrices buttons
-	QPushButton* dataEntityIss = new QPushButton("DataEntity/Information System Services");
+	QPushButton* dataEntityIss = new QPushButton("Entida de datos/Sistemas de la Informacion");
 	dataEntityIss->setFlat(true);
 	QPushButton* infoSystemDepends = new QPushButton("Systema de Informacion/Dependencia");
 	infoSystemDepends->setFlat(true);
@@ -139,8 +139,8 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 	
 	/*sets up the technology architecture part of the UI */
 	//technology architecture groupboxes
-	QGroupBox* technologyArchitectureWrapperGroupBox = new QGroupBox("Technology Architecture");
-	QGroupBox* technologyArchitectureCatalogsGroupBox = new QGroupBox("Catalog");
+	QGroupBox* technologyArchitectureWrapperGroupBox = new QGroupBox("Arquitectura Tecnologica");
+	QGroupBox* technologyArchitectureCatalogsGroupBox = new QGroupBox("Catalogos");
 	QGroupBox* technologyArchitectureMatrixGroupBox = new QGroupBox("Matrices");
 	
 	//Technology layouts

@@ -39,7 +39,7 @@ ActorAddEditDialog::ActorAddEditDialog(QWidget* parent) : QDialog(parent)
 	inputFieldsLayout->addWidget(lastNameEdit,2,1);
 	inputFieldsLayout->addWidget(new QLabel("Rol"),3,0);
 	inputFieldsLayout->addWidget(roleComboBox,3,1);
-	inputFieldsLayout->addWidget(new QLabel("Organizational Unit"),4,0);
+	inputFieldsLayout->addWidget(new QLabel("Unidad Organizacional"),4,0);
 	inputFieldsLayout->addWidget(ouComboBox,4,1);
 
 	actorDialogMainLayout->addLayout(inputFieldsLayout);

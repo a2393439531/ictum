@@ -32,9 +32,9 @@ Navigation::Navigation(QWidget* parent) : QWidget(parent)
 
 	QPushButton* roles = new QPushButton("Roles");
 	roles->setFlat(true);
-	QPushButton* OU = new QPushButton("Organizational Units");
+	QPushButton* OU = new QPushButton("Unidades Organizacionales");
 	OU->setFlat(true);
-	QPushButton* dataEntity = new QPushButton("Data Enities");
+	QPushButton* dataEntity = new QPushButton("Entidad de Datos");
 	dataEntity->setFlat(true);
 	//QPushButton* technologyComponets = new("Componentes Fisicos Tecnologicos");
 	
@@ -67,9 +67,9 @@ void Navigation::showRolesInfo()
 	QSqlQueryModel* currentAnalyzedEntityTableModel = new QSqlQueryModel;
 	QStandardItemModel* relatedEntitiesModel = new QStandardItemModel;
 
-	relatedEntitiesModel->setItem(0,0,new QStandardItem("Actors"));
-	relatedEntitiesModel->setItem(1,0,new QStandardItem("Functions"));
-	relatedEntitiesModel->setItem(2,0,new QStandardItem("Processes"));
+    relatedEntitiesModel->setItem(0,0,new QStandardItem("Actores"));
+	relatedEntitiesModel->setItem(1,0,new QStandardItem("Funciones"));
+	relatedEntitiesModel->setItem(2,0,new QStandardItem("Procesos"));
 
 	
 	/* initiealizes the widgets*/
@@ -96,12 +96,12 @@ void Navigation::showRolesInfo()
 	dataViewLayout->addWidget(back,1,0,1,1);
 	dataViewLayout->addWidget(searchEdit,2,0);
 	dataViewLayout->addWidget(currentAnalyzedEntityTable,3,0);
-	dataViewLayout->addWidget(new QLabel("Related Entities"),2,1);
+	dataViewLayout->addWidget(new QLabel("Entidades Relacionadas"),2,1);
 	dataViewLayout->addWidget(relatedEntitiesListView,3,1);
 	dataViewLayout->addWidget(releatedEntityInformationListView,3,2);
-	dataViewLayout->addWidget(new QLabel("Description"),4,0);
+	dataViewLayout->addWidget(new QLabel("Descripcion"),4,0);
 	dataViewLayout->addWidget(descriptionTextEdit,5,0,1,2);
-	dataViewLayout->addWidget(new QLabel("Element Description"),4,2);
+	dataViewLayout->addWidget(new QLabel("Descripcion del Elemento"),4,2);
 	dataViewLayout->addWidget(elementDescriptionTextEdit,5,2,1,2);
 
 	/*this deletes the all the widgets that were at the screen before placing the widgets definded here*/
@@ -137,7 +137,7 @@ void Navigation::rolesEntities(const QModelIndex& index)
 	QString formatedDescriptionInfo = "This Role Tasks are: \n";
 	QList<QString> formatInfo;
 
-	if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Actors"){
+	if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Actores"){
 		
 		//takes information from the database	
 		relatedEntitiesListModel->setQuery(QString("SELECT name, lastName FROM Actors WHERE rol_id = '%1'").arg(currentAnalyzedEntityTable->model()->index(index.row(),0).data().toString()));
@@ -147,7 +147,7 @@ void Navigation::rolesEntities(const QModelIndex& index)
 		while(getDescription->next())
 			descriptionInfo += getDescription->value(0).toString();
 	}
-	else if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Functions"){
+	else if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Funciones"){
 		relatedEntitiesListModel->setQuery(QString("SELECT name AS Function FROM RolesFunctions INNER JOIN Functions ON Functions.function_id = RolesFunctions.function_id WHERE RolesFunctions.rol_id = %1 GROUP BY name").arg(currentAnalyzedEntityTable->model()->index(index.row(),0).data().toString()));
 		releatedEntityInformationListView->setModel(relatedEntitiesListModel); // display data in the list view
 	
@@ -155,7 +155,7 @@ void Navigation::rolesEntities(const QModelIndex& index)
 		while(getDescription->next())
 			descriptionInfo += getDescription->value(0).toString();
 	}
-	else if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Processes"){
+	else if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Procesos"){
 		relatedEntitiesListModel->setQuery(QString("SELECT name AS Process FROM RolesProcesses INNER JOIN Processes ON Processes.process_id = RolesProcesses.process_id WHERE RolesProcesses.rol_id = %1 GROUP BY name").arg(currentAnalyzedEntityTable->model()->index(index.row(),0).data().toString()));
 		releatedEntityInformationListView->setModel(relatedEntitiesListModel); // display data in the list view
 	
@@ -184,20 +184,18 @@ void Navigation::showRolesEntitiesElementInfo(const QModelIndex& index)
 	QString selectedRelatedEntity = relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString();
 	QString description;
 
-	if (selectedRelatedEntity == "Functions"){
+	if (selectedRelatedEntity == "Funciones"){
 		getDescription.exec(QString("SELECT description FROM Functions WHERE name = '%1'").arg(elementName));
 		getDescription.lastError();
 		while(getDescription.next())
 			description = getDescription.value(0).toString();
 	}
-	else if (selectedRelatedEntity == "Processes"){
+	else if (selectedRelatedEntity == "Procesos"){
 		getDescription.exec(QString("SELECT description FROM Processes WHERE name = '%1'").arg(elementName));
 		getDescription.lastError();
 		while(getDescription.next())
 			description = getDescription.value(0).toString();
 	}
-
-	
 	
 	elementDescriptionTextEdit->setPlainText(description);								   
 }
@@ -218,8 +216,8 @@ void Navigation::showOUInfo()
 	QSqlQueryModel* currentAnalyzedEntityTableModel = new QSqlQueryModel;
 	QStandardItemModel* relatedEntitiesModel = new QStandardItemModel;
 
-	relatedEntitiesModel->setItem(0,0,new QStandardItem("Actors"));
-	relatedEntitiesModel->setItem(1,0,new QStandardItem("Functions"));
+	relatedEntitiesModel->setItem(0,0,new QStandardItem("Actores"));
+	relatedEntitiesModel->setItem(1,0,new QStandardItem("Funciones"));
 		
 	/* initiealizes the widgets*/
 	currentAnalyzedEntityTable = new QTableView;
@@ -245,12 +243,12 @@ void Navigation::showOUInfo()
 	dataViewLayout->addWidget(back,1,0,1,1);
 	dataViewLayout->addWidget(searchEdit,2,0);
 	dataViewLayout->addWidget(currentAnalyzedEntityTable,3,0);
-	dataViewLayout->addWidget(new QLabel("Related Entities"),2,1);
+	dataViewLayout->addWidget(new QLabel("Entidades Relacionadas"),2,1);
 	dataViewLayout->addWidget(relatedEntitiesListView,3,1);
 	dataViewLayout->addWidget(releatedEntityInformationListView,3,2);
-	dataViewLayout->addWidget(new QLabel("Description"),4,0);
+	dataViewLayout->addWidget(new QLabel("Descripcion"),4,0);
 	dataViewLayout->addWidget(descriptionTextEdit,5,0,1,2);
-	dataViewLayout->addWidget(new QLabel("Element Description"),4,2);
+	dataViewLayout->addWidget(new QLabel("Descripcion del Elemento"),4,2);
 	dataViewLayout->addWidget(elementDescriptionTextEdit,5,2,1,2);
 	
 	/*this deletes the all the widgets that were at the screen before placing the widgets definded here*/
@@ -285,7 +283,7 @@ void Navigation::oUEntities(const QModelIndex& index)
 	QString formatedDescriptionInfo = "This Role Tasks are: \n";
 	QList<QString> formatInfo;
 
-	if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Actors"){
+	if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Actores"){
 		
 		//takes information from the database	
 		relatedEntitiesListModel->setQuery(QString("SELECT name FROM Actors WHERE ou_id = '%1'").arg(currentAnalyzedEntityTable->model()->index(index.row(),0).data().toString()));
@@ -295,7 +293,7 @@ void Navigation::oUEntities(const QModelIndex& index)
 		while(getDescription->next())
 			descriptionInfo += getDescription->value(0).toString();
 	}
-	else if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Functions"){
+	else if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Funciones"){
 		
 		relatedEntitiesListModel->setQuery(QString("SELECT Functions.name FROM OrganizationalUnits JOIN Actors ON OrganizationalUnits.ou_id = Actors.ou_id JOIN RolesFunctions ON Actors.rol_id = RolesFunctions.rol_id JOIN Functions ON RolesFunctions.function_id = Functions.function_id WHERE OrganizationalUnits.ou_id = %1 GROUP BY Functions.name").arg(currentAnalyzedEntityTable->model()->index(index.row(),0).data().toString()));
 
@@ -327,7 +325,7 @@ void Navigation::showOUEntitiesElementInfo(const QModelIndex& index)
 	QString selectedRelatedEntity = relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString();
 	QString description;
 
-	if (selectedRelatedEntity == "Functions"){
+	if (selectedRelatedEntity == "Funciones"){
 		getDescription.exec(QString("SELECT description FROM Functions WHERE name = '%1'").arg(elementName));
 		getDescription.lastError();
 		while(getDescription.next())
@@ -354,7 +352,7 @@ void Navigation::showDataEntityInfo()
 	QSqlQueryModel* currentAnalyzedEntityTableModel = new QSqlQueryModel;
 	QStandardItemModel* relatedEntitiesModel = new QStandardItemModel;
 
-	relatedEntitiesModel->setItem(0,0,new QStandardItem("Information System Services"));
+	relatedEntitiesModel->setItem(0,0,new QStandardItem("Sis. de Servcios de Informacion"));
 		
 	/*initiealizes the widgets*/
 	currentAnalyzedEntityTable = new QTableView;
@@ -379,12 +377,12 @@ void Navigation::showDataEntityInfo()
 	dataViewLayout->addWidget(back,1,0,1,1);
 	dataViewLayout->addWidget(searchEdit,2,0);
 	dataViewLayout->addWidget(currentAnalyzedEntityTable,3,0);
-	dataViewLayout->addWidget(new QLabel("Related Entities"),2,1);
+	dataViewLayout->addWidget(new QLabel("Entidades Realcionadas"),2,1);
 	dataViewLayout->addWidget(relatedEntitiesListView,3,1);
 	dataViewLayout->addWidget(releatedEntityInformationListView,3,2);
-	dataViewLayout->addWidget(new QLabel("Description"),4,0);
+	dataViewLayout->addWidget(new QLabel("Descripcion"),4,0);
 	dataViewLayout->addWidget(descriptionTextEdit,5,0,1,2);
-	dataViewLayout->addWidget(new QLabel("Element Description"),4,2);
+	dataViewLayout->addWidget(new QLabel("Descripcion del Elemento"),4,2);
 	dataViewLayout->addWidget(elementDescriptionTextEdit,5,2,1,2);
 	
 	/*this deletes the all the widgets that were at the screen before placing the widgets definded here*/
@@ -449,7 +447,7 @@ void Navigation::showDataEntitiesElementInfo(const QModelIndex& index)
 	QString selectedRelatedEntity = relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString();
 	QString description;
 
-	if (selectedRelatedEntity == "Information System Services"){
+	if (selectedRelatedEntity == "Sis. de Servcios de Informacion"){
 		getDescription.exec(QString("SELECT description FROM InformationSystemServices WHERE name = '%1'").arg(elementName));
 		getDescription.lastError();
 		while(getDescription.next())

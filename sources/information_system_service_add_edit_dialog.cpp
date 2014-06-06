@@ -30,7 +30,7 @@ InformationSystemServiceAddEditDialog::InformationSystemServiceAddEditDialog(QWi
 	inputFieldsLayout->addWidget(nameEdit,0,1);
 	inputFieldsLayout->addWidget(new QLabel("Descripcion"),1,0);
 	inputFieldsLayout->addWidget(descriptionTextEdit,2,0);
-	inputFieldsLayout->addWidget(new QLabel("Hosted In"),3,0);
+	inputFieldsLayout->addWidget(new QLabel("Alojado en"),3,0);
 	inputFieldsLayout->addWidget(physicalTechCompComboBox,3,1);
 	
 	issDialogMainLayout->addLayout(inputFieldsLayout);
