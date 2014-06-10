@@ -13,20 +13,17 @@ class QTextEdit;
 class QLineEdit;
 class QPushButton;
 class QString;
-
 //class QStack<QString>;
 
 class Navigation : public QWidget 
 {
 	Q_OBJECT
 
- public:
-	Navigation (QWidget* parent = 0);
+    public:
+	    Navigation (QWidget* parent = 0);
 	
 	private slots:
 		void showRolesInfo();
-		void rolesEntities(const QModelIndex& index);
-		void showRolesEntitiesElementInfo(const QModelIndex& index);
 		void showOUInfo();
 		void oUEntities(const QModelIndex& index);
 		void showOUEntitiesElementInfo(const QModelIndex& index);
@@ -39,8 +36,8 @@ class Navigation : public QWidget
 		void entitySearch(const QString& text);
 		void goBack();
 
- private:
-		QWidget* startScreen;
+    private:
+        QWidget* startScreen;
 		QWidget* screen;
 		QVBoxLayout* mainlayout;
 		QGridLayout* dataViewLayout;
@@ -54,6 +51,5 @@ class Navigation : public QWidget
 	    //bool isFirstTime = true;
 		QString currentScreen;
 		QStack<QString> navigationController;
-		
 };
 #endif

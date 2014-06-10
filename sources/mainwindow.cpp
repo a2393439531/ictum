@@ -6,6 +6,8 @@
 #include <QListView>
 #include <QStandardItemModel>
 
+MainWindow* MainWindow::mainWindowInstance = NULL;
+
 MainWindow::MainWindow()
 {
 	DataHandler::connect();   //open database conection
@@ -45,4 +47,10 @@ void MainWindow::changeCentralWidget(const QModelIndex& index)
 		this->setCentralWidget(new Artifacts(this));
 }
 
-
+MainWindow* MainWindow::instance()
+{
+    if(!mainWindowInstance)
+        mainWindowInstance = new MainWindow();
+    
+    return mainWindowInstance;
+}

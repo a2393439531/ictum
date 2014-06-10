@@ -31,8 +31,6 @@
 
 Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 {
-	qDebug()<<"me llamaron";
-
 	QWidget* centralWidget = new QWidget;
 	QHBoxLayout* centralWidgetLayout = new QHBoxLayout(centralWidget);
 	

@@ -9,16 +9,18 @@ class QWidget;
 
 class MainWindow : public QMainWindow
 {
-  Q_OBJECT
+    Q_OBJECT
 
- public:
-   MainWindow();
-   
-   private slots:
-     void changeCentralWidget(const QModelIndex & index);
+    public:
+        MainWindow();
+        static MainWindow* instance();
+    
+    private slots:
+        void changeCentralWidget(const QModelIndex & index);
      
- private:
-     QListView* options;
+    private:
+        QListView* options;
+        static MainWindow* mainWindowInstance;
 };
 #endif
 
