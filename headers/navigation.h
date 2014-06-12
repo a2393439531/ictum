@@ -28,8 +28,8 @@ class Navigation : public QWidget
         //void oUEntities(const QModelIndex& index);
 		//void showOUEntitiesElementInfo(const QModelIndex& index);
 		void showDataEntityInfo();
-		void dataEntities(const QModelIndex& index);
-		void showDataEntitiesElementInfo(const QModelIndex& index);
+		//void dataEntities(const QModelIndex& index);
+		//void showDataEntitiesElementInfo(const QModelIndex& index);
 		//void showTechnologiesComponentsInfo();
 		//void technologiesComponentsEntities(const QModelIndex& index);
 		//void showTechnologiesComponentsEntitiesElementInfo(const QModelIndex& index);

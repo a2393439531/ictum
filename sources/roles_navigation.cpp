@@ -147,11 +147,10 @@ void RolesNavigation::rolesSearch(const QString& text)
 	QSqlQueryModel* searchRoles = new QSqlQueryModel;
 	
     if (text != "")
-		searchRoles->setQuery(QString("SELECT rol_id, name FROM Roles WHERE name LIKE '%1%'").arg(text));
+	    searchRoles->setQuery(QString("SELECT information_service_id AS ID, name FROM DataEntity WHERE name LIKE '%1%'").arg(text));
 	else
-	    searchRoles->setQuery("SELECT rol_id, name FROM Roles");
+	    searchRoles->setQuery("SELECT information_service_id AS ID, name FROM DataEntity");
 
-    // Display the Query results
+     // Display the Query results
     currentAnalyzedEntityTable->setModel(searchRoles);
-
 }
