@@ -1,6 +1,5 @@
 #include "../headers/roles_navigation.h"
 #include "data_entity_navigation.h"
-#include <QVBoxLayout>
 #include <QPushButton>
 #include <QTableView>
 #include <QGroupBox>

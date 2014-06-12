@@ -1,12 +1,9 @@
 #include "../headers/roles_navigation.h"
-#include <QVBoxLayout>
 #include <QPushButton>
 #include <QTableView>
-#include <QGroupBox>
 #include <QGridLayout>
 #include <QtSql>
 #include <QListView>
-#include <QLayoutItem>
 #include <QTextEdit>
 #include <QLineEdit>
 #include <QLabel>

@@ -2,7 +2,6 @@
 #include "../headers/roles_navigation.h"
 #include "ou_navigation.h"
 #include "../headers/mainwindow.h"
-#include <QVBoxLayout>
 #include <QPushButton>
 #include <QTableView>
 #include <QGroupBox>
@@ -14,7 +13,6 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QStandardItemModel>
-#include <QStack>
 
 OuNavigation::OuNavigation(QWidget* parent) : QWidget(parent)
 {

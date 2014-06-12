@@ -3,7 +3,6 @@
 
 #include <QWidget>
 
-class QVBoxLayout;
 class QPushButton;
 class QGridLayout;
 class QTableView;
@@ -11,7 +10,6 @@ class QListView;
 class QTextEdit;
 class QLineEdit;
 class QPushButton;
-class QString;
 
 class OuNavigation : public QWidget 
 {
@@ -21,9 +19,9 @@ class OuNavigation : public QWidget
         OuNavigation(QWidget* parent = 0);
 
     private slots:
-		void oUEntities(const QModelIndex& index);     // Display informaytion about the roles related entities
+		void oUEntities(const QModelIndex& index);     // Display informaytion about the organizational units related entities
 		void showOuEntitiesElementInfo(const QModelIndex& index);  // shows information of a clicked element
-        void oUSearch(const QString& text);           //Enable the search by roles
+        void oUSearch(const QString& text);           //Enable the search by OrganizationalUnits units
     private:
         QGridLayout* dataViewLayout;
         QTableView* currentAnalyzedEntityTable; 

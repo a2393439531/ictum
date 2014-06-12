@@ -3,7 +3,6 @@
 
 #include <QWidget>
 
-class QVBoxLayout;
 class QPushButton;
 class QGridLayout;
 class QTableView;
@@ -11,7 +10,6 @@ class QListView;
 class QTextEdit;
 class QLineEdit;
 class QPushButton;
-class QString;
 
 class DataEntityNavigation : public QWidget 
 {
