@@ -25,8 +25,8 @@ class Navigation : public QWidget
 	private slots:
 		void showRolesInfo();
 		void showOUInfo();
-		void oUEntities(const QModelIndex& index);
-		void showOUEntitiesElementInfo(const QModelIndex& index);
+        //void oUEntities(const QModelIndex& index);
+		//void showOUEntitiesElementInfo(const QModelIndex& index);
 		void showDataEntityInfo();
 		void dataEntities(const QModelIndex& index);
 		void showDataEntitiesElementInfo(const QModelIndex& index);
