@@ -1,4 +1,4 @@
-#include "../headers/role_function_matrix.h"
+#include "../headers/data_entity_roles_matrix.h"
 #include "../headers/add_roles_helper_dialog.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -8,13 +8,13 @@
 #include <QPushButton>
 #include <QStandardItemModel>
 
-RoleFunctionMatrix::RoleFunctionMatrix(QWidget* parent) : QDialog(parent)
+DataEntityRolesMatrix::DataEntityRolesMatrix(QWidget* parent) : QDialog(parent)
 {
 	QVBoxLayout* mainlayout = new QVBoxLayout;
 	QHBoxLayout* tableListLayout = new QHBoxLayout;
 	QHBoxLayout* buttonsLayout = new QHBoxLayout;
 
-	functionTable = new QTableView;
+	dataEntityTable= new QTableView;
 	rolesList = new QListView;
 	QPushButton* add = new QPushButton("agregar");
 	QPushButton* edit = new QPushButton("Editar");
@@ -23,13 +23,13 @@ RoleFunctionMatrix::RoleFunctionMatrix(QWidget* parent) : QDialog(parent)
 	
 	//search for functions Names
 	QSqlQueryModel* functionQueryModel = new QSqlQueryModel;
-	functionQueryModel->setQuery("SELECT function_id, name FROM Functions");
+	functionQueryModel->setQuery("SELECT data_entity_id, name FROM DataEntity");
 
-	functionTable->setSelectionBehavior(QAbstractItemView::SelectRows);   //selects entires rows	
-	functionTable->setSelectionMode(QAbstractItemView::SingleSelection);  //two rows can't be selected at the same time
-	functionTable->setModel(functionQueryModel);
+	dataEntityTable->setSelectionBehavior(QAbstractItemView::SelectRows);   //selects entires rows	
+	dataEntityTable->setSelectionMode(QAbstractItemView::SingleSelection);  //two rows can't be selected at the same time
+	dataEntityTable->setModel(functionQueryModel);
 
-	tableListLayout->addWidget(functionTable);
+	tableListLayout->addWidget(dataEntityTable);
 	tableListLayout->addStretch();
 	tableListLayout->addWidget(rolesList);
 	buttonsLayout->addWidget(add);
@@ -43,33 +43,34 @@ RoleFunctionMatrix::RoleFunctionMatrix(QWidget* parent) : QDialog(parent)
 
 	this->setLayout(mainlayout);
 
-	connect(functionTable, SIGNAL(clicked(const QModelIndex&)),
-			this, SLOT(revealRoles(const QModelIndex&)));
+	connect(dataEntityTable, SIGNAL(clicked(const QModelIndex&)),
+            this, SLOT(revealRoles(const QModelIndex&)));
 	connect(add, SIGNAL(clicked()),
-			this, SLOT(addFunctionRoleRelation()));
+			this, SLOT(addDataEntityRolesRelation()));
 	connect(del, SIGNAL(clicked()),
-			this, SLOT(delFunctionRoleRelationElement()));
+			this, SLOT(delDataEntityRolesRelation()));
 }
 
-void RoleFunctionMatrix::revealRoles(const QModelIndex& index)
+void DataEntityRolesMatrix::revealRoles(const QModelIndex& index)
 {
-	QSqlQueryModel* roleListQuery = new QSqlQueryModel();
-	QString currentFunctionId;
+	QSqlQueryModel* dataEtityListQuery = new QSqlQueryModel();
+	QString currentDataEntityId;
 
-	currentFunctionId = functionTable->model()->index(index.row(),0).data().toString();
-	roleListQuery->setQuery(QString("SELECT name AS Role FROM RolesFunctions INNER JOIN Roles ON Roles.rol_id = RolesFunctions.rol_id WHERE RolesFunctions.function_id = %1 GROUP BY name").arg(currentFunctionId));
+	currentDataEntityId = dataEntityTable->model()->index(index.row(),0).data().toString();
+	dataEtityListQuery->setQuery(QString("SELECT name AS 'Entitdad de Datos' FROM RolesDataEntity INNER JOIN Roles ON Roles.rol_id = RolesDataEntity.rol_id WHERE RolesDataEntity.data_entity_id = %1 GROUP BY name").arg(currentDataEntityId));
 		
-	rolesList->setModel(roleListQuery);
+	rolesList->setModel(dataEtityListQuery);
+    qDebug()<<dataEtityListQuery->lastError();
 }
 
-void RoleFunctionMatrix::addFunctionRoleRelation()
+void DataEntityRolesMatrix::addDataEntityRolesRelation()
 {
 	AddRolesHelperDialog* dlgHelper = new AddRolesHelperDialog(this);
 	QStandardItemModel* rolesListModel = new QStandardItemModel;
 	QSqlQuery qry;
 	QSqlQuery getRoleId;
 	int rolId = 0;
-	int functionId = 0;
+	int dataEntityId = 0;
 	int row=0; //keeps track of the rows when the returning selected items from dlgHelpet
 	int modelRow = 0;
 	int column = 0; 
@@ -99,52 +100,51 @@ void RoleFunctionMatrix::addFunctionRoleRelation()
 		rolesList->setModel(rolesListModel);   		//displays the elements in the list
 	}
 
-	foreach(QString element, currentElementsInTheList){
-		qry.prepare("INSERT INTO RolesFunctions(rol_id, function_id) VALUES (:rol_id, :function_id)");
+    foreach(QString element, currentElementsInTheList){
+		qry.prepare("INSERT INTO RolesDataEntity(rol_id, data_entity_id) VALUES (:rol_id, :data_entity_id)");
 
 		getRoleId.exec(QString("SELECT rol_id FROM Roles WHERE name = '%1'").arg(element));
 		while(getRoleId.next())
 			rolId = getRoleId.value(0).toInt();
 
-		functionId = functionTable->model()->index(functionTable->selectionModel()->currentIndex().row(),0).data().toInt();
+		dataEntityId = dataEntityTable->model()->index(dataEntityTable->selectionModel()->currentIndex().row(),0).data().toInt();
 
 		qry.bindValue(":rol_id", rolId);
-		qry.bindValue(":function_id", functionId);
+		qry.bindValue(":data_entity_id", dataEntityId);
 
 		if (!qry.exec())
 			qDebug()<<qry.lastError();
 	} 
 }
 
-void RoleFunctionMatrix::delFunctionRoleRelationElement(){
+
+void DataEntityRolesMatrix::delDataEntityRolesRelation()
+{
 	
 	QSqlQuery qry;
 	QSqlQuery getRoleId;   //takes the processId of the element
 	//takes the clicked element in the rolesList listview
 	QString element = rolesList->model()->index(rolesList->selectionModel()->currentIndex().row(),0).data().toString();
 	//takes the clicked function_id of the rolesTable
-	QString functionId = functionTable->model()->index(functionTable->selectionModel()->currentIndex().row(),0).data().toString();
+	QString dataEntityId = dataEntityTable->model()->index(dataEntityTable->selectionModel()->currentIndex().row(),0).data().toString();
 	int rolId = 0;
 	QStandardItemModel* rolesListModel = new QStandardItemModel;
 	int row = 0;  // to count the processesListModel rows
 	int newModelrows = 0; //to puts element in the right place in the processListModel
 	QString currentListElement;
 
-	qry.prepare("DELETE FROM RolesFunctions WHERE rol_id = :rol_id AND function_id = :function_id");
+	qry.prepare("DELETE FROM RolesDataEntity WHERE rol_id = :rol_id AND data_entity_id = :data_entity_id");
 
 	//get the role_id value
 	getRoleId.exec(QString("SELECT rol_id FROM Roles WHERE name = '%1'").arg(element));
 	while(getRoleId.next())
 		rolId = getRoleId.value(0).toInt();
 	
-	//takes the function_id value from the functiosTable table
-	//functionId = functionTable->model()->index(functionTable->selectionModel()->currentIndex().row(),0).data().toInt();
-
 	qry.bindValue(":rol_id", rolId);
-	qry.bindValue(":function_id", functionId);
+	qry.bindValue(":data_entity_id", dataEntityId);
 	
 	qDebug()<<rolId;
-	qDebug()<<functionId;
+	qDebug()<<dataEntityId;
 		
 	if(!qry.exec())
 	  qDebug()<<qry.lastError();
@@ -158,6 +158,4 @@ void RoleFunctionMatrix::delFunctionRoleRelationElement(){
 		}
 	}
 	rolesList->setModel(rolesListModel);    //show modifications in the list view
-
-
 }

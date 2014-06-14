@@ -20,6 +20,7 @@
 #include "../headers/role_process_matrix.h"
 #include "../headers/info_system_service_support_matrix.h"
 #include "../headers/physical_component_support_matrix.h"
+#include "../headers/data_entity_roles_matrix.h"
 #include <QLabel>
 #include <QDebug>
 #include <QGroupBox>
@@ -125,6 +126,8 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 	infoSystemDepends->setFlat(true);
 	QPushButton* infoSystemSupport = new QPushButton("Systema de Informacion/Apoya");
 	infoSystemSupport->setFlat(true);
+    QPushButton* rolesDataEntity = new QPushButton("Entidad de datos/Roles");
+    rolesDataEntity->setFlat(true);
 
 	//add information architecture catalogs buttons to the layout
 	informationCatalogGroupBoxLayout->addWidget(dataEntities);
@@ -134,6 +137,7 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 	informationMatricesGroupBoxLayout->addWidget(dataEntityIss);
 	informationMatricesGroupBoxLayout->addWidget(infoSystemDepends);
 	informationMatricesGroupBoxLayout->addWidget(infoSystemSupport);
+    informationMatricesGroupBoxLayout->addWidget(rolesDataEntity);
 	
 	/*sets up the technology architecture part of the UI */
 	//technology architecture groupboxes
@@ -202,6 +206,7 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 	rPM = new RoleProcessMatrix(this);
 	iSSSM = new InfoSystemServiceSupportMatrix(this);
 	pCSM = new PhysicalComponentSupportMatrix(this);
+    dRM = new DataEntityRolesMatrix(this); 
 
 	//opens actor dialog when actors button is clicked
 	connect(actors, SIGNAL(clicked()),
@@ -266,4 +271,6 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 	//opens componente fisico/apoyo dialog when its button is clicked
 	connect(physicalComponentSupport, SIGNAL(clicked()),
 			pCSM, SLOT(exec()));
+    connect(rolesDataEntity, SIGNAL(clicked()),
+            dRM, SLOT(exec()));
 }
