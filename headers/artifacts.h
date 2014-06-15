@@ -25,6 +25,7 @@ class RoleProcessMatrix;
 class InfoSystemServiceSupportMatrix;
 class PhysicalComponentSupportMatrix;
 class DataEntityRolesMatrix;
+class PhysicalComponentRolesMatrix;
 
 class Artifacts : public QWidget
 {
@@ -54,5 +55,6 @@ class Artifacts : public QWidget
 	InfoSystemServiceSupportMatrix* iSSSM;
 	PhysicalComponentSupportMatrix* pCSM;
     DataEntityRolesMatrix* dRM;
+    PhysicalComponentRolesMatrix* pCRM;
 };
 #endif

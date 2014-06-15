@@ -21,6 +21,7 @@
 #include "../headers/info_system_service_support_matrix.h"
 #include "../headers/physical_component_support_matrix.h"
 #include "../headers/data_entity_roles_matrix.h"
+#include "../headers/physical_component_roles_matrix.h"
 #include <QLabel>
 #include <QDebug>
 #include <QGroupBox>
@@ -128,7 +129,8 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 	infoSystemSupport->setFlat(true);
     QPushButton* rolesDataEntity = new QPushButton("Entidad de datos/Roles");
     rolesDataEntity->setFlat(true);
-
+    QPushButton* informationServiceRoles = new QPushButton("Sistema de Inforacion/Roles");
+    informationServiceRoles->setFlat(true);
 	//add information architecture catalogs buttons to the layout
 	informationCatalogGroupBoxLayout->addWidget(dataEntities);
 	informationCatalogGroupBoxLayout->addWidget(iss);
@@ -138,6 +140,7 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 	informationMatricesGroupBoxLayout->addWidget(infoSystemDepends);
 	informationMatricesGroupBoxLayout->addWidget(infoSystemSupport);
     informationMatricesGroupBoxLayout->addWidget(rolesDataEntity);
+    informationMatricesGroupBoxLayout->addWidget(informationServiceRoles);
 	
 	/*sets up the technology architecture part of the UI */
 	//technology architecture groupboxes
@@ -165,15 +168,17 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 	physicalComponenetDepends->setFlat(true);
 	QPushButton* physicalComponentSupport = new QPushButton("Componente Fisico/Apoyo");
 	physicalComponentSupport->setFlat(true);
-
-	//add physical architecture catalogs buttons to the layout
+    QPushButton* physicalComponentRoles = new QPushButton("Componente Fisico/Roles");
+    physicalComponentRoles->setFlat(true);
+	
+    //add physical architecture catalogs buttons to the layout
 	technologyCatalogGroupBoxLayout->addWidget(ptc);
-
-	//add physical architecture matrices to the layout
+	
+    //add physical architecture matrices to the layout
 	technologyMatricesGroupBoxLayout->addWidget(physicalComponentLocation);
 	technologyMatricesGroupBoxLayout->addWidget(physicalComponenetDepends);
 	technologyMatricesGroupBoxLayout->addWidget(physicalComponentSupport);
-	
+    technologyMatricesGroupBoxLayout->addWidget(physicalComponentRoles);
 	
 	//add widgets to the main layout
 	centralWidgetLayout->addWidget(businessArchitectureWrapperGroupBox);
@@ -207,6 +212,7 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 	iSSSM = new InfoSystemServiceSupportMatrix(this);
 	pCSM = new PhysicalComponentSupportMatrix(this);
     dRM = new DataEntityRolesMatrix(this); 
+    pCRM = new PhysicalComponentRolesMatrix(this);
 
 	//opens actor dialog when actors button is clicked
 	connect(actors, SIGNAL(clicked()),
@@ -271,6 +277,10 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 	//opens componente fisico/apoyo dialog when its button is clicked
 	connect(physicalComponentSupport, SIGNAL(clicked()),
 			pCSM, SLOT(exec()));
+    //opens Entidad de Datos/roles Dialog when its buttons is clicked
     connect(rolesDataEntity, SIGNAL(clicked()),
             dRM, SLOT(exec()));
+    //opens Componente Fisico/Roles dialog when its button is clicked
+    connect(physicalComponentRoles,SIGNAL(clicked()),
+            pCRM, SLOT(exec()));
 }
