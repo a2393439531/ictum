@@ -22,6 +22,7 @@
 #include "../headers/physical_component_support_matrix.h"
 #include "../headers/data_entity_roles_matrix.h"
 #include "../headers/physical_component_roles_matrix.h"
+#include "../headers/info_system_services_roles_matrix.h"
 #include <QLabel>
 #include <QDebug>
 #include <QGroupBox>
@@ -213,6 +214,7 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 	pCSM = new PhysicalComponentSupportMatrix(this);
     dRM = new DataEntityRolesMatrix(this); 
     pCRM = new PhysicalComponentRolesMatrix(this);
+    iSSRM = new InfoSystemServicesRolesMatrix(this);
 
 	//opens actor dialog when actors button is clicked
 	connect(actors, SIGNAL(clicked()),
@@ -283,4 +285,7 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
     //opens Componente Fisico/Roles dialog when its button is clicked
     connect(physicalComponentRoles,SIGNAL(clicked()),
             pCRM, SLOT(exec()));
+    //opens Information Service/roles dialog when it button is clicked
+    connect(informationServiceRoles, SIGNAL(clicked()),
+            iSSRM, SLOT(exec()));
 }
