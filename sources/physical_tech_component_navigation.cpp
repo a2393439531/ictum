@@ -1,5 +1,5 @@
-#include "../headers/roles_navigation.h"
-#include "data_entity_navigation.h"
+#include "../headers/physical_tech_component_navigation.h"
+//#include "data_entity_navigation.h"
 #include <QPushButton>
 #include <QTableView>
 #include <QGroupBox>
@@ -12,7 +12,7 @@
 #include <QLabel>
 #include <QStandardItemModel>
 
-DataEntityNavigation::DataEntityNavigation(QWidget* parent) : QWidget(parent)
+PhysicalTechComponentNavigation::PhysicalTechComponentNavigation(QWidget* parent) : QWidget(parent)
 {
     QGridLayout* dataViewLayout = new QGridLayout();
 	QSqlQueryModel* currentAnalyzedEntityTableModel = new QSqlQueryModel;
@@ -20,7 +20,7 @@ DataEntityNavigation::DataEntityNavigation(QWidget* parent) : QWidget(parent)
 
 	relatedEntitiesModel->setItem(0,0,new QStandardItem("Actores"));
 	relatedEntitiesModel->setItem(1,0,new QStandardItem("Roles"));
-	relatedEntitiesModel->setItem(2,0,new QStandardItem("Sis. de Servcios de Informacion"));
+	//relatedEntitiesModel->setItem(2,0,new QStandardItem("Sis. de Servcios de Informacion"));
 	
     /*initiealizes the widgets*/
 	currentAnalyzedEntityTable = new QTableView;
@@ -38,7 +38,7 @@ DataEntityNavigation::DataEntityNavigation(QWidget* parent) : QWidget(parent)
 	currentAnalyzedEntityTable->setSelectionBehavior(QAbstractItemView::SelectRows);   //selects entires rows
 	currentAnalyzedEntityTable->setSelectionMode(QAbstractItemView::SingleSelection);  //two rows can't be selected at the same time
 		
-	currentAnalyzedEntityTableModel->setQuery("SELECT data_entity_id AS ID, name FROM DataEntity"); // takes information from the database
+	currentAnalyzedEntityTableModel->setQuery("SELECT physical_technology_component_id AS ID, name FROM PhysicalTechnologiesComponents"); // takes information from the database
 	currentAnalyzedEntityTable->setModel(currentAnalyzedEntityTableModel);  //display data in the table view
 	
 	//places items in the screen
@@ -56,15 +56,15 @@ DataEntityNavigation::DataEntityNavigation(QWidget* parent) : QWidget(parent)
     this->setLayout(dataViewLayout);    //show widgets
 
 	connect(currentAnalyzedEntityTable, SIGNAL(clicked(const QModelIndex&)),
-			this, SLOT(dataEntities(const QModelIndex&)));
+			this, SLOT(physicalTechComponents(const QModelIndex&)));
 	connect(searchEdit, SIGNAL(textChanged(const QString&)),
-			this, SLOT(dataEntitySearch(const QString&))); 
+			this, SLOT(physicalTechComponentSearch(const QString&))); 
 	connect(releatedEntityInformationListView, SIGNAL(clicked(const QModelIndex&)),
-			this, SLOT(showDataEntitiesElementInfo(const QModelIndex&)));
+			this, SLOT(showPhysicalTechComponentsElementInfo(const QModelIndex&)));
 		
 }
 
-void DataEntityNavigation::dataEntities(const QModelIndex& index)
+void PhysicalTechComponentNavigation::physicalTechComponents(const QModelIndex& index)
 {
 	//isFirstTime = false;
 	
@@ -75,28 +75,28 @@ void DataEntityNavigation::dataEntities(const QModelIndex& index)
 	QString formatedDescriptionInfo;
 	QList<QString> formatInfo;
 
-	if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Sis. de Servcios de Informacion"){
+	if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Roles"){
     
         //takes information from the database	
-	    relatedEntitiesListModel->setQuery(QString("SELECT InformationSystemServices.name FROM InformationSystemServices JOIN DataEntity ON DataEntity.information_service_id = InformationSystemServices.information_service_id WHERE DataEntity.data_entity_id = %1").arg(currentAnalyzedEntityTable->model()->index(index.row(),0).data().toString()));
+	    relatedEntitiesListModel->setQuery(QString("SELECT Roles.name FROM Roles JOIN PhysicalComponentsRoles ON Roles.rol_id = PhysicalComponentsRoles.rol_id WHERE PhysicalComponentsRoles.physical_technology_component_id = %1").arg(currentAnalyzedEntityTable->model()->index(index.row(),0).data().toString()));
     
         releatedEntityInformationListView->setModel(relatedEntitiesListModel); // display data in the list view
     }
 
     else if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Actores"){
-	    relatedEntitiesListModel->setQuery(QString("SELECT name FROM Actors JOIN RolesDataEntity ON Actors.rol_id = RolesDataEntity.rol_id WHERE RolesDataEntity.data_entity_id  = %1 GROUP BY name").arg(currentAnalyzedEntityTable->model()->index(index.row(),0).data().toString()));
+	    relatedEntitiesListModel->setQuery(QString("SELECT Actors.name FROM Actors JOIN PhysicalComponentsRoles ON Actors.rol_id = PhysicalComponentsRoles.rol_id WHERE PhysicalComponentsRoles.physical_technology_component_id = %1").arg(currentAnalyzedEntityTable->model()->index(index.row(),0).data().toString()));
 		
         releatedEntityInformationListView->setModel(relatedEntitiesListModel); // display data in the list view
 	
 		}
-	else if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Roles"){
+/*	else if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Roles"){
 		relatedEntitiesListModel->setQuery(QString("SELECT name FROM Roles JOIN RolesDataEntity ON Roles.rol_id = RolesDataEntity.rol_id WHERE RolesDataEntity.data_entity_id = %1 GROUP BY name").arg(currentAnalyzedEntityTable->model()->index(index.row(),0).data().toString()));
 		releatedEntityInformationListView->setModel(relatedEntitiesListModel); // display data in the list view
 	
-		}
+		}*/
 
 	
-	getDescription->exec(QString("SELECT description FROM DataEntity WHERE name = '%1'").arg(currentAnalyzedEntityTable->model()->index(index.row(),1).data().toString()));
+	getDescription->exec(QString("SELECT objective FROM PhysicalTechnologiesComponents WHERE name = '%1'").arg(currentAnalyzedEntityTable->model()->index(index.row(),1).data().toString()));
 	while(getDescription->next())
 		descriptionInfo += getDescription->value(0).toString();
     
@@ -113,34 +113,33 @@ void DataEntityNavigation::dataEntities(const QModelIndex& index)
 	
 }
 
-void DataEntityNavigation::showDataEntitiesElementInfo(const QModelIndex& index)
+void PhysicalTechComponentNavigation::showPhysicalTechComponentsElementInfo(const QModelIndex& index)
 {
 	QSqlQuery getDescription;
     QString elementName = releatedEntityInformationListView->model()->index(index.row(),0).data().toString();
 	QString selectedRelatedEntity = relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString();
 	QString description;
 
-	if (selectedRelatedEntity == "Sis. de Servcios de Informacion"){
-		getDescription.exec(QString("SELECT description FROM InformationSystemServices WHERE name = '%1'").arg(elementName));
-		getDescription.lastError();
+	if (selectedRelatedEntity == "Roles"){
+		getDescription.exec(QString("SELECT objective FROM Roles WHERE name = '%1'").arg(elementName));
 		while(getDescription.next())
 			description = getDescription.value(0).toString();
 	}
 	elementDescriptionTextEdit->setPlainText(description);								   
 }
 
-void DataEntityNavigation::dataEntitySearch(const QString& text)
+void PhysicalTechComponentNavigation::physicalTechComponentSearch(const QString& text)
 {
     /* search roles using the user input in the LineEdit*/
 	
 	QSqlQueryModel* searchRoles = new QSqlQueryModel;
 	
 	if (text != "")
-	    searchRoles->setQuery(QString("SELECT information_service_id AS ID, name FROM DataEntity WHERE name LIKE '%1%'").arg(text));
+	    searchRoles->setQuery(QString("SELECT physical_technology_component_id AS ID, name FROM PhysicalTechnologiesComponents WHERE name LIKE '%1%'").arg(text));
 	else
-	    searchRoles->setQuery("SELECT information_service_id AS ID, name FROM DataEntity");
+	    searchRoles->setQuery("SELECT physical_technology_component_id AS ID, name FROM PhysicalTechnologiesComponents");
 
-       // Display the Query results
+    // Display the Query results
     currentAnalyzedEntityTable->setModel(searchRoles);
 
 }

@@ -17,7 +17,7 @@ class Navigation : public QWidget
 		void showRolesInfo();
 		void showOUInfo();
 		void showDataEntityInfo();
-
+        void showPhysicalTechComponentInfo();
     private:
 		QVBoxLayout* mainlayout;
         void deleteScreenWidgets();

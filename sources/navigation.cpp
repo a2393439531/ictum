@@ -2,6 +2,7 @@
 #include "../headers/roles_navigation.h"
 #include "../headers/ou_navigation.h"
 #include "../headers/data_entity_navigation.h"
+#include "../headers/physical_tech_component_navigation.h"
 #include "../headers/mainwindow.h"
 #include <QVBoxLayout>
 #include <QPushButton>
@@ -18,10 +19,13 @@ Navigation::Navigation(QWidget* parent) : QWidget(parent)
 	OU->setFlat(true);
 	QPushButton* dataEntity = new QPushButton("Entidad de Datos");
 	dataEntity->setFlat(true);
-	
+    QPushButton* physicalTechComponents = new QPushButton("Componentes Fisicos Tecnologicos");
+    physicalTechComponents->setFlat(true);
+
 	mainlayout->addWidget(roles);
 	mainlayout->addWidget(OU);
 	mainlayout->addWidget(dataEntity);
+    mainlayout->addWidget(physicalTechComponents);
 
 	setLayout(mainlayout);
 
@@ -31,6 +35,8 @@ Navigation::Navigation(QWidget* parent) : QWidget(parent)
 			this, SLOT(showOUInfo()));
 	connect(dataEntity, SIGNAL(clicked()),
 			this, SLOT(showDataEntityInfo()));
+    connect(physicalTechComponents,SIGNAL(clicked()),
+            this, SLOT(showPhysicalTechComponentInfo()));
 }
 
 void Navigation::deleteScreenWidgets()
@@ -71,4 +77,9 @@ void Navigation::showDataEntityInfo()
     MainWindow::instance()->setCentralWidget(new DataEntityNavigation(MainWindow::instance()));
 													   
 }
+void Navigation::showPhysicalTechComponentInfo()
+{
+    deleteScreenWidgets();
 
+    MainWindow::instance()->setCentralWidget(new PhysicalTechComponentNavigation(MainWindow::instance()));
+}
