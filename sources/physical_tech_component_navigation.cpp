@@ -20,6 +20,8 @@ PhysicalTechComponentNavigation::PhysicalTechComponentNavigation(QWidget* parent
 
 	relatedEntitiesModel->setItem(0,0,new QStandardItem("Actores"));
 	relatedEntitiesModel->setItem(1,0,new QStandardItem("Roles"));
+	relatedEntitiesModel->setItem(2,0,new QStandardItem("Apoya"));
+	relatedEntitiesModel->setItem(3,0,new QStandardItem("Ubicacion"));
 	//relatedEntitiesModel->setItem(2,0,new QStandardItem("Sis. de Servcios de Informacion"));
 	
     /*initiealizes the widgets*/
@@ -79,16 +81,21 @@ void PhysicalTechComponentNavigation::physicalTechComponents(const QModelIndex& 
     
         //takes information from the database	
 	    relatedEntitiesListModel->setQuery(QString("SELECT Roles.name FROM Roles JOIN PhysicalComponentsRoles ON Roles.rol_id = PhysicalComponentsRoles.rol_id WHERE PhysicalComponentsRoles.physical_technology_component_id = %1").arg(currentAnalyzedEntityTable->model()->index(index.row(),0).data().toString()));
-    
-        releatedEntityInformationListView->setModel(relatedEntitiesListModel); // display data in the list view
     }
 
     else if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Actores"){
 	    relatedEntitiesListModel->setQuery(QString("SELECT Actors.name FROM Actors JOIN PhysicalComponentsRoles ON Actors.rol_id = PhysicalComponentsRoles.rol_id WHERE PhysicalComponentsRoles.physical_technology_component_id = %1").arg(currentAnalyzedEntityTable->model()->index(index.row(),0).data().toString()));
-		
-        releatedEntityInformationListView->setModel(relatedEntitiesListModel); // display data in the list view
-	
 		}
+    else if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Apoya"){
+        relatedEntitiesListModel->setQuery(QString("SELECT name AS Tech FROM PhysicalComponentsSupport INNER JOIN PhysicalTechnologiesComponents ON PhysicalTechnologiesComponents.physical_technology_component_id = PhysicalComponentsSupport.support WHERE PhysicalComponentsSupport.physical_technology_component_id = %1 GROUP BY name").arg(currentAnalyzedEntityTable->model()->index(index.row(),0).data().toString()));
+    }
+
+    else if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Ubicacion"){
+        relatedEntitiesListModel->setQuery(QString("SELECT Locations.location FROM Locations JOIN PhysicalTechnologiesComponents ON Locations.location_id = PhysicalTechnologiesComponents.location WHERE PhysicalTechnologiesComponents.physical_technology_component_id = %1").arg(currentAnalyzedEntityTable->model()->index(index.row(),0).data().toString()));
+    }
+
+     releatedEntityInformationListView->setModel(relatedEntitiesListModel); // display data in the list view
+
 /*	else if((relatedEntitiesListView->model()->index(relatedEntitiesListView->selectionModel()->currentIndex().row(),0).data().toString()) == "Roles"){
 		relatedEntitiesListModel->setQuery(QString("SELECT name FROM Roles JOIN RolesDataEntity ON Roles.rol_id = RolesDataEntity.rol_id WHERE RolesDataEntity.data_entity_id = %1 GROUP BY name").arg(currentAnalyzedEntityTable->model()->index(index.row(),0).data().toString()));
 		releatedEntityInformationListView->setModel(relatedEntitiesListModel); // display data in the list view
@@ -102,13 +109,14 @@ void PhysicalTechComponentNavigation::physicalTechComponents(const QModelIndex& 
     
     qDebug()<<getDescription->lastError();
 	relatedEntitiesListModel->lastError();
-	//formatInfo = descriptionInfo.split(",", QString::SkipEmptyParts);  //break the string tha comes out form the database in parts
 	
-	/*// gives format to the string that is comming from the database
+    formatInfo = descriptionInfo.split(",", QString::SkipEmptyParts);  //break the string tha comes out form the database in parts
+	
+	// gives format to the string that is comming from the database
 	  foreach(QString e, formatInfo){
 	  //e+= "\n";
 	  formatedDescriptionInfo += e +"\n" ;
-	  }*/
+	  }
 	descriptionTextEdit->setPlainText(descriptionInfo);
 	
 }
@@ -125,6 +133,13 @@ void PhysicalTechComponentNavigation::showPhysicalTechComponentsElementInfo(cons
 		while(getDescription.next())
 			description = getDescription.value(0).toString();
 	}
+
+    else if (selectedRelatedEntity == "Apoya"){
+		getDescription.exec(QString("SELECT objective FROM PhysicalTechnologiesComponents WHERE name = '%1'").arg(elementName));
+		while(getDescription.next())
+			description = getDescription.value(0).toString();
+	}
+    
 	elementDescriptionTextEdit->setPlainText(description);								   
 }
 
