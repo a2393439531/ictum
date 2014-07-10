@@ -131,7 +131,7 @@ void DataEntityNavigation::showDataEntitiesElementInfo(const QModelIndex& index)
 
 void DataEntityNavigation::dataEntitySearch(const QString& text)
 {
-    /* search roles using the user input in the LineEdit*/
+    /* search using the user input in the LineEdit*/
 	
 	QSqlQueryModel* searchRoles = new QSqlQueryModel;
 	
