@@ -36,8 +36,8 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 {
 	QWidget* centralWidget = new QWidget;
 	QHBoxLayout* centralWidgetLayout = new QHBoxLayout(centralWidget);
-	
-	/* sets up the business architecture part of the UI*/
+
+    /* sets up the business architecture part of the UI*/
 	//business architecture groupboxes
 	QGroupBox* businessArchitectureWrapperGroupBox = new QGroupBox("Arquitectura de Negocio");
 	QGroupBox* businessArchitectureCatalogsGroupBox = new QGroupBox("Catalogos");
@@ -65,6 +65,8 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
 	processes->setFlat(true);
 	QPushButton* locations = new QPushButton("Ubicaciones");
 	locations->setFlat(true);
+
+    //actors->setStyleSheet("background-color :yellow");
 	
 	//bussines architecture buttons matrices
 	QPushButton* actorRoleMatrix = new QPushButton("Actores/Roles");
@@ -288,4 +290,9 @@ Artifacts::Artifacts(QWidget* parent) : QWidget(parent)
     //opens Information Service/roles dialog when it button is clicked
     connect(informationServiceRoles, SIGNAL(clicked()),
             iSSRM, SLOT(exec()));
+
+    this->setStyleSheet("QPushButton {color: white}"
+                        "QWidget {background-color : dark-gray}"
+                        "QTableView {background-color : white}");
+    
 }

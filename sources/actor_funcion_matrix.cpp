@@ -6,6 +6,7 @@
 #include <QtSql>
 #include <QStandardItemModel>
 #include <QDialogButtonBox>
+#include <QHeaderView>
 
 ActorFunctionMatrix::ActorFunctionMatrix(QWidget* parent) : QDialog(parent)
 {
@@ -18,11 +19,13 @@ ActorFunctionMatrix::ActorFunctionMatrix(QWidget* parent) : QDialog(parent)
 	
 	//search for functions Names
 	QSqlQueryModel* actorQueryModel = new QSqlQueryModel;
-	actorQueryModel->setQuery("SELECT rol_id, name, lastName FROM Actors");
+	actorQueryModel->setQuery("SELECT rol_id as ID, name as Nombre, lastName as Apellido FROM Actors");
 
 	actorsTable->setSelectionBehavior(QAbstractItemView::SelectRows);   //selects entires rows	
 	actorsTable->setSelectionMode(QAbstractItemView::SingleSelection);  //two rows can't be selected at the same time
+    
 	actorsTable->setModel(actorQueryModel);
+    actorsTable->verticalHeader()->setVisible(false);
 
 	QDialogButtonBox* actorFunctionMatrixButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox:: Cancel);
 

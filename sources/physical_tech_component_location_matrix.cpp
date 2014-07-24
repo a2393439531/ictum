@@ -4,6 +4,7 @@
 #include <QtSql>
 #include <QDebug>
 #include <QDialogButtonBox>
+#include <QHeaderView>
 
 PhysicalTechComponentLocationMatrix::PhysicalTechComponentLocationMatrix(QWidget* parent) : QDialog(parent)
 {
@@ -11,7 +12,8 @@ PhysicalTechComponentLocationMatrix::PhysicalTechComponentLocationMatrix(QWidget
 	physicalTechComponentLocationMatrixTable = new QTableView;
 	
 	QSqlQueryModel* physicalTechComponentLocationMatrixModel = new QSqlQueryModel();
-	physicalTechComponentLocationMatrixModel->setQuery("SELECT name, (SELECT location FROM Locations WHERE Locations.location_id = PhysicalTechnologiesComponents.location) FROM PhysicalTechnologiesComponents");
+	physicalTechComponentLocationMatrixModel->setQuery("SELECT name as Nombre, (SELECT location FROM Locations WHERE Locations.location_id = PhysicalTechnologiesComponents.location) as Ubicación FROM PhysicalTechnologiesComponents");
+    physicalTechComponentLocationMatrixTable->verticalHeader()->setVisible(false);
 	physicalTechComponentLocationMatrixTable->setModel(physicalTechComponentLocationMatrixModel);
 	
 	QDialogButtonBox* physicalTechnologyComponentMatrixButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);

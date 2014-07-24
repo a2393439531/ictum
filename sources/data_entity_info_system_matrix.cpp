@@ -4,6 +4,7 @@
 #include <QtSql>
 #include <QDebug>
 #include <QDialogButtonBox>
+#include <QHeaderView>
 
 DataEntityInfoSystemMatrix::DataEntityInfoSystemMatrix(QWidget* parent) : QDialog(parent)
 {
@@ -11,7 +12,8 @@ DataEntityInfoSystemMatrix::DataEntityInfoSystemMatrix(QWidget* parent) : QDialo
 	DataEntityInfoSystemMatrixTable = new QTableView;
 	
 	QSqlQueryModel* dataEntityInfoSystemMatrixModel = new QSqlQueryModel();
-	dataEntityInfoSystemMatrixModel->setQuery("SELECT name, (SELECT name FROM InformationSystemServices WHERE InformationSystemServices.information_service_id = DataEntity.information_service_id ) AS 'Processed By' FROM DataEntity");
+	dataEntityInfoSystemMatrixModel->setQuery("SELECT name as Nombre, (SELECT name FROM InformationSystemServices WHERE InformationSystemServices.information_service_id = DataEntity.information_service_id ) AS 'Procesado Por' FROM DataEntity");
+    DataEntityInfoSystemMatrixTable->verticalHeader()->setVisible(false);
 	DataEntityInfoSystemMatrixTable->setModel(dataEntityInfoSystemMatrixModel);
 
 	qDebug()<<dataEntityInfoSystemMatrixModel->lastError();

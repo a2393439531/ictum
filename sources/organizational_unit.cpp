@@ -7,7 +7,7 @@
 #include <QLineEdit>
 #include <QDebug>
 #include <QtSql>
-
+#include <QHeaderView>
 
 OrganizationalUnit::OrganizationalUnit(QWidget* parent) : QDialog(parent)
 {
@@ -21,6 +21,7 @@ OrganizationalUnit::OrganizationalUnit(QWidget* parent) : QDialog(parent)
 	QPushButton* deleteOrganizationalUnit = new QPushButton("Eliminar OU");
 
 	table = new QTableView;
+    table->verticalHeader()->setVisible(false);
 
 	refreshOuTable();
 
@@ -43,7 +44,7 @@ void OrganizationalUnit::refreshOuTable()
 {
 	//sets query model to show data in the table view
 	QSqlQueryModel* ouCatalogQueryModel = new QSqlQueryModel();
-	ouCatalogQueryModel->setQuery("SELECT * FROM OrganizationalUnits");  //query the database
+	ouCatalogQueryModel->setQuery("SELECT ou_id as ID, name as Nombre, objective as Objetivo, location as Ubicación, tasks as Tareas FROM OrganizationalUnits");  //query the database
 	
 	table->setSelectionBehavior(QAbstractItemView::SelectRows); // select entire rows
 	table->setSelectionMode(QAbstractItemView::SingleSelection); //select one item at time

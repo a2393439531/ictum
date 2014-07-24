@@ -7,6 +7,7 @@
 #include <QLineEdit>
 #include <QDebug>
 #include <QtSql>
+#include <QHeaderView>
 
 Role::Role(QWidget* parent) : QDialog(parent) 
 {
@@ -22,7 +23,7 @@ Role::Role(QWidget* parent) : QDialog(parent)
 	QPushButton* deleteRole = new QPushButton("Eliminar Rol");
 
 	table = new QTableView;
-
+    table->verticalHeader()->setVisible(false);
 	refreshRoleTable();
 
 	//add widgets to layout
@@ -46,11 +47,12 @@ void Role::refreshRoleTable()
 {
 	//sets query model to show data in the table view
 	QSqlQueryModel* roleCatalogQueryModel = new QSqlQueryModel();
-	roleCatalogQueryModel->setQuery("SELECT * FROM Roles");  //query the database
+	roleCatalogQueryModel->setQuery("SELECT rol_id AS ID, name AS Nombre, objective AS Objetivo, tasks AS Tareas FROM Roles");  //query the database
 
 	table->setSelectionBehavior(QAbstractItemView::SelectRows); // select entire rows
 	table->setSelectionMode(QAbstractItemView::SingleSelection); //select one item at time
 	table->setModel(roleCatalogQueryModel); // sets roleCatalogQueryModel as the table model
+    qDebug()<<roleCatalogQueryModel->lastError();
 }
 void Role::addRole()
 {

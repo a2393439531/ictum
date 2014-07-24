@@ -7,6 +7,7 @@
 #include <QLineEdit>
 #include <QDebug>
 #include <QtSql>
+#include <QHeaderView>
 
 InformationSystemService::InformationSystemService(QWidget* parent) : QDialog(parent)
 {
@@ -20,7 +21,8 @@ InformationSystemService::InformationSystemService(QWidget* parent) : QDialog(pa
 	QPushButton* deleteSystemService = new QPushButton("Eliminar SS");
 
 	table = new QTableView;
-
+    table->verticalHeader()->setVisible(false);
+        
 	refreshInformationSystemServiceTable();
 	
 	buttonsLayout->addWidget(addSystemService);
@@ -43,7 +45,7 @@ void InformationSystemService::refreshInformationSystemServiceTable()
 	//creates an sql query model to show information from the data base in the table	
 	QSqlQueryModel* issCatalogQueryModel = new QSqlQueryModel();
 	//this query will be sent to the database	
-	issCatalogQueryModel->setQuery("SELECT information_service_id, name, description, (SELECT name FROM PhysicalTechnologiesComponents WHERE physical_technology_component_id = InformationSystemServices.physical_technology_component_id) AS HostedIn FROM InformationSystemServices;");  
+	issCatalogQueryModel->setQuery("SELECT information_service_id as ID, name as Nombre, description as Descripción, (SELECT name FROM PhysicalTechnologiesComponents WHERE physical_technology_component_id = InformationSystemServices.physical_technology_component_id) AS 'Alojado En' FROM InformationSystemServices;");  
 	
 	table->setSelectionBehavior(QAbstractItemView::SelectRows);   //selects entires rows
 	table->setSelectionMode(QAbstractItemView::SingleSelection);  //two rows can't be selected at the same time 

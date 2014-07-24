@@ -6,7 +6,7 @@
 #include <QtSql>
 #include <QStandardItemModel>
 #include <QDialogButtonBox>
-
+#include <QHeaderView>
 OuFunctionMatrix::OuFunctionMatrix(QWidget* parent) : QDialog(parent)
 {
 	QVBoxLayout* mainlayout = new QVBoxLayout;
@@ -18,8 +18,9 @@ OuFunctionMatrix::OuFunctionMatrix(QWidget* parent) : QDialog(parent)
 	
 	//search for functions Names
 	QSqlQueryModel* ouQueryModel = new QSqlQueryModel;
-	ouQueryModel->setQuery("SELECT ou_id, name FROM OrganizationalUnits");
+	ouQueryModel->setQuery("SELECT ou_id as ID, name as Nombre FROM OrganizationalUnits");
 
+    ouTable->verticalHeader()->setVisible(false);
 	ouTable->setSelectionBehavior(QAbstractItemView::SelectRows);   //selects entires rows	
 	ouTable->setSelectionMode(QAbstractItemView::SingleSelection);  //two rows can't be selected at the same time
 	ouTable->setModel(ouQueryModel);

@@ -7,7 +7,7 @@
 #include <QLineEdit>
 #include <QDebug>
 #include <QtSql>
-
+#include <QHeaderView>
 
 Process::Process(QWidget* parent) : QDialog(parent)
 {
@@ -21,6 +21,7 @@ Process::Process(QWidget* parent) : QDialog(parent)
 	QPushButton* deleteProcess = new QPushButton("Eliminar Proceso");
 
 	table = new QTableView;
+    table->verticalHeader()->setVisible(false);
 
 	refreshProcessTable();
 
@@ -43,7 +44,7 @@ void Process::refreshProcessTable()
 {
 	//sets query model to show data in the table view
 	QSqlQueryModel* processCatalogQueryModel = new QSqlQueryModel();
-	processCatalogQueryModel->setQuery("SELECT * FROM Processes");  //query the database
+	processCatalogQueryModel->setQuery("SELECT process_id as ID, name as Nombre, objective as Objetivo, description as Descripción FROM Processes");  //query the database
 	
 	table->setSelectionBehavior(QAbstractItemView::SelectRows); // select entire rows
 	table->setSelectionMode(QAbstractItemView::SingleSelection); //select one item at time

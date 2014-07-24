@@ -7,6 +7,7 @@
 #include <QtSql>
 #include <QPushButton>
 #include <QStandardItemModel>
+#include <QHeaderView>
 
 InfoSystemServicesDependencyMatrix::InfoSystemServicesDependencyMatrix(QWidget* parent) : QDialog(parent)
 {
@@ -23,8 +24,9 @@ InfoSystemServicesDependencyMatrix::InfoSystemServicesDependencyMatrix(QWidget* 
 	
 	//search for functions Names
 	QSqlQueryModel* iSSQueryModel = new QSqlQueryModel;
-	iSSQueryModel->setQuery("SELECT information_service_id, name FROM InformationSystemServices");
+	iSSQueryModel->setQuery("SELECT information_service_id as ID, name as Nombre FROM InformationSystemServices");
 
+    iSSTable->verticalHeader()->setVisible(false);
 	iSSTable->setSelectionBehavior(QAbstractItemView::SelectRows);   //selects entires rows	
 	iSSTable->setSelectionMode(QAbstractItemView::SingleSelection);  //two rows can't be selected at the same time
 	iSSTable->setModel(iSSQueryModel);

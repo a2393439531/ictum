@@ -9,6 +9,7 @@
 #include <QTextEdit>
 #include <QDebug>
 #include <QtSql>
+#include <QHeaderView>
 
 Function::Function(QWidget* parent) : QDialog(parent) 
 {
@@ -19,12 +20,13 @@ Function::Function(QWidget* parent) : QDialog(parent)
 	QHBoxLayout* mainlayout = new QHBoxLayout();
 	QVBoxLayout* buttonsLayout = new QVBoxLayout;
 
-	QPushButton* addFunction = new QPushButton("Agregar Funcion");
-	QPushButton* editFunction = new QPushButton("Editar Funcion");
-	QPushButton* deleteFunction = new QPushButton("Eliminar Funcion");
+	QPushButton* addFunction = new QPushButton("Agregar Función");
+	QPushButton* editFunction = new QPushButton("Editar Función");
+	QPushButton* deleteFunction = new QPushButton("Eliminar Función");
 
 	table = new QTableView;
 	
+    table->verticalHeader()->setVisible(false);
 	refreshFunctionTable();
 
 	//add widgets to layout
@@ -48,7 +50,7 @@ void Function::refreshFunctionTable()
 {
 	//sets query model to show data in the table view
 	QSqlQueryModel* functionCatalogQueryModel = new QSqlQueryModel();
-	functionCatalogQueryModel->setQuery("SELECT * FROM Functions");  //query the database
+	functionCatalogQueryModel->setQuery("SELECT function_id as ID, name as Nombre, description as Descripción FROM Functions");  //query the database
 
 	table->setSelectionBehavior(QAbstractItemView::SelectRows); // select entire rows
 	table->setSelectionMode(QAbstractItemView::SingleSelection); //select one item at time

@@ -7,6 +7,7 @@
 #include <QtSql>
 #include <QPushButton>
 #include <QStandardItemModel>
+#include <QHeaderView>
 
 DataEntityRolesMatrix::DataEntityRolesMatrix(QWidget* parent) : QDialog(parent)
 {
@@ -23,8 +24,9 @@ DataEntityRolesMatrix::DataEntityRolesMatrix(QWidget* parent) : QDialog(parent)
 	
 	//search for functions Names
 	QSqlQueryModel* functionQueryModel = new QSqlQueryModel;
-	functionQueryModel->setQuery("SELECT data_entity_id, name FROM DataEntity");
+	functionQueryModel->setQuery("SELECT data_entity_id as ID, name as Nombre FROM DataEntity");
 
+    dataEntityTable->verticalHeader()->setVisible(false);
 	dataEntityTable->setSelectionBehavior(QAbstractItemView::SelectRows);   //selects entires rows	
 	dataEntityTable->setSelectionMode(QAbstractItemView::SingleSelection);  //two rows can't be selected at the same time
 	dataEntityTable->setModel(functionQueryModel);

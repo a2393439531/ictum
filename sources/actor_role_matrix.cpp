@@ -4,14 +4,15 @@
 #include <QtSql>
 #include <QDebug>
 #include <QDialogButtonBox>
-
+#include <QHeaderView>
 ActorRoleMatrix::ActorRoleMatrix(QWidget* parent) : QDialog(parent)
 {
 	QVBoxLayout* mainlayout = new QVBoxLayout;
 	ActorRoleMatrixTable = new QTableView;
 	
 	QSqlQueryModel* roleActorMatrixModel = new QSqlQueryModel();
-	roleActorMatrixModel->setQuery("SELECT name, lastName, (SELECT name FROM Roles WHERE Roles.rol_id = Actors.rol_id) AS Role FROM Actors");
+	roleActorMatrixModel->setQuery("SELECT name as Nombre, lastName as Apellido, (SELECT name as Rol FROM Roles WHERE Roles.rol_id = Actors.rol_id) AS Role FROM Actors");
+    ActorRoleMatrixTable->verticalHeader()->setVisible(false);
 	ActorRoleMatrixTable->setModel(roleActorMatrixModel);
 	
 	QDialogButtonBox* actorRoleMatrixButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);

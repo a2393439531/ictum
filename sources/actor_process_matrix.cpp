@@ -5,7 +5,7 @@
 #include <QListView>
 #include <QTableView>
 #include <QtSql>
-
+#include <QHeaderView>
 
 ActorProcessMatrix::ActorProcessMatrix(QWidget* parent) : QDialog(parent)
 {
@@ -17,8 +17,9 @@ ActorProcessMatrix::ActorProcessMatrix(QWidget* parent) : QDialog(parent)
 	
 	//search for functions Names
 	QSqlQueryModel* actorsQueryModel = new QSqlQueryModel;
-	actorsQueryModel->setQuery("SELECT rol_id As Id, name, lastName FROM Actors");
+	actorsQueryModel->setQuery("SELECT rol_id As ID, name as Nombre, lastName as Apellido FROM Actors");
 
+    actorsTable->verticalHeader()->setVisible(false);
 	actorsTable->setSelectionBehavior(QAbstractItemView::SelectRows);   //selects entires rows	
 	actorsTable->setSelectionMode(QAbstractItemView::SingleSelection);  //two rows can't be selected at the same time
 	actorsTable->setModel(actorsQueryModel);

@@ -7,6 +7,7 @@
 #include <QtSql>
 #include <QPushButton>
 #include <QStandardItemModel>
+#include <QHeaderView>
 
 RoleProcessMatrix::RoleProcessMatrix(QWidget* parent) : QDialog(parent)
 {
@@ -23,8 +24,9 @@ RoleProcessMatrix::RoleProcessMatrix(QWidget* parent) : QDialog(parent)
 	
 	//search for functions Names
 	QSqlQueryModel* roleQueryModel = new QSqlQueryModel;
-	roleQueryModel->setQuery("SELECT rol_id, name FROM Roles");
+	roleQueryModel->setQuery("SELECT rol_id as ID, name as Nombre FROM Roles");
 
+    rolesTable->verticalHeader()->setVisible(false);
 	rolesTable->setSelectionBehavior(QAbstractItemView::SelectRows);   //selects entires rows	
 	rolesTable->setSelectionMode(QAbstractItemView::SingleSelection);  //two rows can't be selected at the same time
 	rolesTable->setModel(roleQueryModel);

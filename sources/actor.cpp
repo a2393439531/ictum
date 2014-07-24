@@ -7,6 +7,7 @@
 #include <QLineEdit>
 #include <QDebug>
 #include <QtSql>
+#include <QHeaderView>
 
 Actor::Actor(QWidget* parent) : QDialog(parent)
 {
@@ -20,6 +21,7 @@ Actor::Actor(QWidget* parent) : QDialog(parent)
 	QPushButton* deleteActor = new QPushButton("Eliminar Actor");
 
 	table = new QTableView;
+    table->verticalHeader()->setVisible(false);
 	refreshActorTable();
 
 	/*CheckBoxDelegate *testDelegate = new CheckBoxDelegate();
@@ -44,9 +46,9 @@ void Actor::refreshActorTable()
 {
 	//creates an sql query model to show information from the data base in the table	
 	QSqlQueryModel* actorCatalogQueryModel = new QSqlQueryModel();
-	actorCatalogQueryModel->setQuery("SELECT actor_id,name,middleName,lastName,"
-									 "(SELECT name FROM Roles WHERE rol_id = Actors.rol_id) AS role," 
-									 "(SELECT name FROM OrganizationalUnits WHERE ou_id = Actors.ou_id) AS ou FROM Actors");    //this query will be sent to the database
+	actorCatalogQueryModel->setQuery("SELECT actor_id AS ID,name AS Nombre,middleName AS 'Segundo Nombre',lastName AS 'Apellido',"
+									 "(SELECT name FROM Roles WHERE rol_id = Actors.rol_id) AS Rol," 
+									 "(SELECT name FROM OrganizationalUnits WHERE ou_id = Actors.ou_id) AS OU FROM Actors");    //this query will be sent to the database
 	
 	table->setSelectionBehavior(QAbstractItemView::SelectRows);   //selects entires rows
 	table->setSelectionMode(QAbstractItemView::SingleSelection);  //two rows can't be selected at the same time 

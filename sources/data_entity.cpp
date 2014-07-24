@@ -7,6 +7,7 @@
 #include <QLineEdit>
 #include <QDebug>
 #include <QtSql>
+#include <QHeaderView>
 
 DataEntity::DataEntity(QWidget* parent) : QDialog(parent)
 {
@@ -20,6 +21,7 @@ DataEntity::DataEntity(QWidget* parent) : QDialog(parent)
 	QPushButton* deleteDataEntity = new QPushButton("Eliminar Entidad de Datos");
 
 	table = new QTableView;
+    table->verticalHeader()->setVisible(false);
 	
 	refreshDataEntityTable();
 
@@ -42,7 +44,7 @@ void DataEntity::refreshDataEntityTable()
 {
 	//sets query model to show data in the table view
 	QSqlQueryModel* dataEntityCatalogQueryModel = new QSqlQueryModel();
-	dataEntityCatalogQueryModel->setQuery("SELECT data_entity_id, name, description,(SELECT name FROM InformationSystemServices WHERE InformationSystemServices.information_service_id = DataEntity.information_service_id ) AS 'Processed By' FROM DataEntity");  //query the database
+	dataEntityCatalogQueryModel->setQuery("SELECT data_entity_id ID, name as Nombre, description as Descripción,(SELECT name FROM InformationSystemServices WHERE InformationSystemServices.information_service_id = DataEntity.information_service_id ) AS 'Procesado Por' FROM DataEntity");  //query the database
 
 	table->setSelectionBehavior(QAbstractItemView::SelectRows); // select entire rows
 	table->setSelectionMode(QAbstractItemView::SingleSelection); //select one item at time

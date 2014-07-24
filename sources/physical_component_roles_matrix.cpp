@@ -7,6 +7,7 @@
 #include <QtSql>
 #include <QPushButton>
 #include <QStandardItemModel>
+#include <QHeaderView>
 
 PhysicalComponentRolesMatrix::PhysicalComponentRolesMatrix(QWidget* parent) : QDialog(parent)
 {
@@ -16,15 +17,16 @@ PhysicalComponentRolesMatrix::PhysicalComponentRolesMatrix(QWidget* parent) : QD
 
 	physicalComponentsTable= new QTableView;
 	rolesList = new QListView;
-	QPushButton* add = new QPushButton("agregar");
+	QPushButton* add = new QPushButton("Agregar");
 	QPushButton* edit = new QPushButton("Editar");
 	QPushButton* del = new QPushButton("Eliminar"); 
 	rolesListModel = new QStandardItemModel;
 	
 	//search for functions Names
 	QSqlQueryModel* functionQueryModel = new QSqlQueryModel;
-	functionQueryModel->setQuery("SELECT physical_technology_component_id, name FROM PhysicalTechnologiesComponents");
+	functionQueryModel->setQuery("SELECT physical_technology_component_id as ID, name as Nombre FROM PhysicalTechnologiesComponents");
 
+    physicalComponentsTable->verticalHeader()->setVisible(false);
 	physicalComponentsTable->setSelectionBehavior(QAbstractItemView::SelectRows);   //selects entires rows	
 	physicalComponentsTable->setSelectionMode(QAbstractItemView::SingleSelection);  //two rows can't be selected at the same time
 	physicalComponentsTable->setModel(functionQueryModel);

@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QtSql>
+#include <QHeaderView>
 
 Location::Location(QWidget* parent) : QDialog(parent) 
 {
@@ -16,11 +17,12 @@ Location::Location(QWidget* parent) : QDialog(parent)
 	QHBoxLayout* mainlayout = new QHBoxLayout();
 	QVBoxLayout* buttonsLayout = new QVBoxLayout;
 
-	QPushButton* addLocation = new QPushButton("Agregar Ubicacion");
-	QPushButton* editLocation = new QPushButton("Editar Ubicacion");
-	QPushButton* deleteLocation = new QPushButton("Eliminar Ubicacion");
+	QPushButton* addLocation = new QPushButton("Agregar Ubicación");
+	QPushButton* editLocation = new QPushButton("Editar Ubicación");
+	QPushButton* deleteLocation = new QPushButton("Eliminar Ubicación");
 
 	table = new QTableView;
+    table->verticalHeader()->setVisible(false);
 
 	refreshLocationTable();
 
@@ -45,7 +47,7 @@ void Location::refreshLocationTable()
 {
 	//sets query model to show data in the table view
 	QSqlQueryModel* locationCatalogQueryModel = new QSqlQueryModel();
-	locationCatalogQueryModel->setQuery("SELECT * FROM Locations");  //query the database
+	locationCatalogQueryModel->setQuery("SELECT location_id as ID, location as Ubicación FROM Locations");  //query the database
 
 	table->setSelectionBehavior(QAbstractItemView::SelectRows); // select entire rows
 	table->setSelectionMode(QAbstractItemView::SingleSelection); //select one item at time

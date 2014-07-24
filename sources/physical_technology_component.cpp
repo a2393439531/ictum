@@ -7,6 +7,7 @@
 #include <QLineEdit>
 #include <QDebug>
 #include <QtSql>
+#include <QHeaderView>
 
 PhysicalTechnologyComponent::PhysicalTechnologyComponent(QWidget* parent) : QDialog(parent) 
 {
@@ -15,11 +16,12 @@ PhysicalTechnologyComponent::PhysicalTechnologyComponent(QWidget* parent) : QDia
 	QHBoxLayout* mainlayout = new QHBoxLayout();
 	QVBoxLayout* buttonsLayout = new QVBoxLayout;
 
-	QPushButton* addTechComp = new QPushButton("Agregar Componente Fisico");
-	QPushButton* editTechComp = new QPushButton("Editar Componente Fisico");
-	QPushButton* deleteTechComp = new QPushButton("Eliminar Componente Fisico");
+	QPushButton* addTechComp = new QPushButton("Agregar Componente Físico");
+	QPushButton* editTechComp = new QPushButton("Editar Componente Físico");
+	QPushButton* deleteTechComp = new QPushButton("Eliminar Componente Físico");
 
 	table = new QTableView;
+    table->verticalHeader()->setVisible(false);
 
 	refreshPhysicalTechnologyComponentTable();
 
@@ -44,8 +46,8 @@ void PhysicalTechnologyComponent::refreshPhysicalTechnologyComponentTable()
 {
 	//sets query model to show data in the table view
 	QSqlQueryModel* physicalTechnologyComponentCatalogQueryModel = new QSqlQueryModel();
-	physicalTechnologyComponentCatalogQueryModel->setQuery("SELECT physical_technology_component_id, name, objective, description,"
-														   "(SELECT location FROM Locations WHERE location_id = PhysicalTechnologiesComponents.location) AS location FROM PhysicalTechnologiesComponents");  //query the database	
+	physicalTechnologyComponentCatalogQueryModel->setQuery("SELECT physical_technology_component_id as ID, name as Nombre, objective as Objetivo, description as Descripción,"
+														   "(SELECT location FROM Locations WHERE location_id = PhysicalTechnologiesComponents.location) AS Ubicación FROM PhysicalTechnologiesComponents");  //query the database	
 
 
 	table->setSelectionBehavior(QAbstractItemView::SelectRows); // select entire rows

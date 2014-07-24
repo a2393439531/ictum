@@ -4,6 +4,7 @@
 #include <QtSql>
 #include <QDebug>
 #include <QDialogButtonBox>
+#include <QHeaderView>
 
 ActorOuMatrix::ActorOuMatrix(QWidget* parent) : QDialog(parent)
 {
@@ -11,7 +12,8 @@ ActorOuMatrix::ActorOuMatrix(QWidget* parent) : QDialog(parent)
 	ActorOuMatrixTable = new QTableView;
 	
 	QSqlQueryModel* ouActorMatrixModel = new QSqlQueryModel();
-	ouActorMatrixModel->setQuery("SELECT name, lastName, (SELECT name FROM OrganizationalUnits WHERE OrganizationalUnits.ou_id = Actors.ou_id) AS 'Organizational Unit' FROM Actors");
+	ouActorMatrixModel->setQuery("SELECT name AS Nombre, lastName AS Apellido, (SELECT name FROM OrganizationalUnits WHERE OrganizationalUnits.ou_id = Actors.ou_id) AS 'Unidad Organizacional' FROM Actors");
+    ActorOuMatrixTable->verticalHeader()->setVisible(false);
 	ActorOuMatrixTable->setModel(ouActorMatrixModel);
 	
 	QDialogButtonBox* actorOuMatrixButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox:: Cancel);
