@@ -124,9 +124,9 @@ void Actor::editActor()
 		currentRole = dlg->role();	
 		currentOu = dlg->ou();
 		
-		dlg->exec();
+		//dlg->exec();
 
-		if(QDialog::Accepted){
+		if(dlg->exec() == QDialog::Accepted){
 						
 			
 			/*edit the database row*/

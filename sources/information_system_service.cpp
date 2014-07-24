@@ -108,9 +108,9 @@ void InformationSystemService::editInformationSystemService()
 	hosted = dlg->physicalTechnologyComponent();	
 	
 	//if ok is pressed in dlg
-	dlg->exec();
+	//dlg->exec();
 
-	if(QDialog::Accepted){
+	if(dlg->exec()==QDialog::Accepted){
 		/*edit the database row*/
 		//prepare the sql statment
 		QString id = table->model()->index(rowIndex,0).data().toString();
